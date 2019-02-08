@@ -47,6 +47,12 @@ function commentView(image) {
     let comment = document.createElement('li')
     comment.textContent = c.content
     commentContainer.appendChild(comment)
+
+      let delBtn = document.createElement('button')
+      delBtn.textContent = "Delete Me"
+      delBtn.dataset.id = c.id 
+      delBtn.addEventListener('click',removeComment)
+      comment.appendChild(delBtn)
   })
 }
 
@@ -98,5 +104,19 @@ function createComment(newContent) {
       image_id: imageId, 
       content: newContent
     })
+  })  
+} 
+
+function removeComment() {
+  let byeComment = event.target.parentElement
+  byeComment.parentElement.removeChild(byeComment) 
+
+  let id = event.target.dataset.id 
+  deleteComment(id) 
+} 
+
+function deleteComment(id) {
+  return fetch(`https://randopic.herokuapp.com/comments/${id}`,{
+    method: 'DELETE'
   })  
 }
